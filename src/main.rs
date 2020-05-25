@@ -1,6 +1,6 @@
 /*
 Authors: Awildo G., Sosina A., Siqi F., Sam A.
-Project: Advent of Code 2019 Day 2 Part 1
+Project: Advent of Code 2019 Day 2 Part 2
 Date: 05/25/2020
 Desc.: We accept input four integers at a time, with the first being an operation,
 *  the next two being operands, and the last being an index to place the result on. 
@@ -35,53 +35,63 @@ fn main() {
     for code in contents.iter() {
         codes.push(code.trim().to_string().parse().expect("Not a number"));
     }
-    
-    // // print for debugging
-    // for line in contents.iter() {
-    //     print!("{} ", line);
-    // }
 
-    // go through contents, each fourth item starting at index 0 is an
-    // instruction
-    // 1 means to add
-    // 2 means to multiply
-    // 99 means to halt
-    let mut index = 0;
-    while index < (codes.len() - 4) {
-        let operation: u32 = codes[index];
+    let temp_mem: Vec<u32> = codes.clone();
+    for noun in 0..100 {
+        for verb in 0..100 {
+            codes = temp_mem.clone();
+            codes[1] = noun;
+            codes[2] = verb;
 
-        // e.g. op 2 3 4
-        // The second and third item are indices in the contents vector for
-        // actual items we will operate on
-        // So, we do some operation on contents[2] and contents[3] and place it at contents[4]
-        
-        // because vectors can only be indexed by usize types
-        let item1 = codes[codes[index + 1] as usize];
-        let item2 = codes[codes[index + 2] as usize];
-        let resulting_loc = codes[index + 3];
+            // go through contents, each fourth item starting at index 0 is an
+            // instruction
+            // 1 means to add
+            // 2 means to multiply
+            // 99 means to halt
+            let mut index = 0;
+            while index < (codes.len() - 4) {
+                let operation: u32 = codes[index];
+                // println!("Operation: {}", operation);
 
-        // println!("Item 1 is {} and Item 2 is {}", item1_loc, item2_loc); // for debugging
+                // e.g. op 2 3 4
+                // The second and third item are indices in the contents vector for
+                // actual items we will operate on
+                // So, we do some operation on contents[2] and contents[3] and place it at contents[4]
+                
+                // because vectors can only be indexed by usize types
+                let item1 = codes[codes[index + 1] as usize];
+                let item2 = codes[codes[index + 2] as usize];
+                let resulting_loc = codes[index + 3];
 
-        // adding
-        if operation == 1 {
-            codes[resulting_loc as usize] = item1 + item2;
+                // println!("Item 1 is {} and Item 2 is {}", item1_loc, item2_loc); // for debugging
+
+                // adding
+                if operation == 1 {
+                    codes[resulting_loc as usize] = item1 + item2;
+                }
+                // multiplying
+                else if operation == 2 {
+                    codes[resulting_loc as usize] = item1 * item2;
+                }
+                // halt
+                else if operation == 99 {
+                    break;
+                } 
+                else {
+                    println!("Invalid input!");
+                    break;
+                }
+                
+                index += 4;
+            }
+            
+            // After the algorithm, check if we have our target.
+            if codes[0] == 19690720 {
+                println!("Noun: {}, Verb: {}", noun, verb);
+                break
+            }
         }
-        // multiplying
-        else if operation == 2 {
-            codes[resulting_loc as usize] = item1 * item2;
-        }
-        // halt
-        else if operation == 99 {
-            break;
-        } 
-        else {
-            println!("Invalid input!");
-            break;
-        }
-        
-        index += 4;
     }
-
-    println!("Position 0: {}", codes[0]);
+    
 }
 
