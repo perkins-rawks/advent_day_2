@@ -1,6 +1,6 @@
 /*
 Authors: Awildo G., Sosina A., Siqi F., Sam A.
-Project: Advent of Code 2019 Day 2
+Project: Advent of Code 2019 Day 2 Part 1
 Date: 05/25/2020
 Desc.: We accept input four integers at a time, with the first being an operation,
 *  the next two being operands, and the last being an index to place the result on. 
